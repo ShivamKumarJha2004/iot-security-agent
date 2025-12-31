@@ -1,10 +1,9 @@
-```yaml
 services:
   - type: worker
     name: iot-security-agent
     env: python
-    buildCommand: pip install -r agent/requirements.txt
-    startCommand: cd agent && python agent.py
+    buildCommand: pip install -r requirements.txt
+    startCommand: python agent.py
     envVars:
       - key: N8N_WEBHOOK_URL
         value: https://n8n.unifostedu.com/webhook/5dde489c-3ed6-4e04-a8ec-d9b659504330
@@ -17,5 +16,4 @@ services:
       - key: DEVICE_NAME
         value: IoT Security Agent
       - key: COLLECTION_INTERVAL
-        value: 10
-```
+        value: "10"

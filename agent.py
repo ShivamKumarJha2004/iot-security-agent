@@ -225,8 +225,13 @@ def main():
 ╚══════════════════════════════════════════════════════════╝
     """.format(DEVICE_ID, COLLECTION_INTERVAL))
     
+    # Keep running indefinitely (for Render background worker)
+    iteration = 0
     while True:
         try:
+            iteration += 1
+            print(f"\n[Iteration {iteration}] Collecting data...")
+            
             # Collect system data
             payload = collect_data()
             
@@ -237,6 +242,8 @@ def main():
             send_to_n8n(payload)
             send_to_backend(payload)
             
+            print(f"✅ Data sent successfully. Waiting {COLLECTION_INTERVAL} seconds...")
+            
             # Wait for next collection
             time.sleep(COLLECTION_INTERVAL)
             
@@ -245,6 +252,9 @@ def main():
             break
         except Exception as e:
             print(f"❌ Error: {e}")
+            import traceback
+            traceback.print_exc()
+            print(f"⏳ Retrying in 5 seconds...")
             time.sleep(5)
 
 if __name__ == "__main__":
